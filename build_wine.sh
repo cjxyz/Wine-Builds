@@ -220,10 +220,14 @@ elif [ "$WINE_BRANCH" = "staging-tkg" ] || [ "$WINE_BRANCH" = "staging-tkg-ntsyn
 	WINE_VERSION="$(cat wine/VERSION | tail -c +14)"
 	BUILD_NAME="${WINE_VERSION}"-"${WINE_BRANCH}"
 elif [ "$WINE_BRANCH" = "proton" ]; then
-	if [ -z "${PROTON_BRANCH}" ]; then
-		git clone https://github.com/ValveSoftware/wine
+	if [ -z "${MICEWINE_BRANCH}" ]; then
+		if [ -z "${PROTON_BRANCH}" ]; then
+			git clone https://github.com/ValveSoftware/wine
+		else
+			git clone https://github.com/ValveSoftware/wine -b "${PROTON_BRANCH}"
+		fi
 	else
-		git clone https://github.com/ValveSoftware/wine -b "${PROTON_BRANCH}"
+		git clone https://github.com/cjxyz/wine -b "${MICEWINE_BRANCH}"
 	fi
 
 	WINE_VERSION="$(cat wine/VERSION | tail -c +14)-$(git -C wine rev-parse --short HEAD)"
